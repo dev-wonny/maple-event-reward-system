@@ -1,0 +1,2168 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+      "/": {
+        "get": {
+          "operationId": "AppController_getHello",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "App"
+          ]
+        }
+      },
+      "/events": {
+        "post": {
+          "operationId": "EventsController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateEventDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "이벤트가 성공적으로 생성되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "유효하지 않은 조건 ID 또는 보상 ID입니다."
+            },
+            "409": {
+              "description": "이미 존재하는 이벤트 ID입니다."
+            }
+          },
+          "summary": "새 이벤트 생성",
+          "tags": [
+            "events"
+          ]
+        },
+        "get": {
+          "operationId": "EventsController_findAll",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "모든 이벤트 목록을 반환합니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/EventResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "모든 이벤트 조회",
+          "tags": [
+            "events"
+          ]
+        }
+      },
+      "/events/{eventId}": {
+        "get": {
+          "operationId": "EventsController_findOne",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "특정 이벤트 정보를 반환합니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "특정 이벤트 조회",
+          "tags": [
+            "events"
+          ]
+        },
+        "put": {
+          "operationId": "EventsController_update",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateEventDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "이벤트가 성공적으로 업데이트되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "유효하지 않은 조건 ID 또는 보상 ID입니다."
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "이벤트 전체 업데이트",
+          "tags": [
+            "events"
+          ]
+        },
+        "patch": {
+          "operationId": "EventsController_partialUpdate",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateEventDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "이벤트가 성공적으로 부분 업데이트되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "유효하지 않은 조건 ID 또는 보상 ID입니다."
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "이벤트 부분 업데이트",
+          "tags": [
+            "events"
+          ]
+        },
+        "delete": {
+          "operationId": "EventsController_remove",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "이벤트가 성공적으로 삭제되었습니다."
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "이벤트 삭제",
+          "tags": [
+            "events"
+          ]
+        }
+      },
+      "/events/{eventId}/activate": {
+        "patch": {
+          "operationId": "EventsController_activate",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "이벤트가 성공적으로 활성화되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "이벤트 활성화",
+          "tags": [
+            "events"
+          ]
+        }
+      },
+      "/events/{eventId}/deactivate": {
+        "patch": {
+          "operationId": "EventsController_deactivate",
+          "parameters": [
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "이벤트가 성공적으로 비활성화되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EventResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "이벤트를 찾을 수 없습니다."
+            }
+          },
+          "summary": "이벤트 비활성화",
+          "tags": [
+            "events"
+          ]
+        }
+      },
+      "/conditions": {
+        "post": {
+          "operationId": "ConditionsController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateConditionDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "조건이 성공적으로 생성됨",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConditionResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "조건 생성",
+          "tags": [
+            "conditions"
+          ]
+        },
+        "get": {
+          "operationId": "ConditionsController_findAll",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "모든 조건 목록",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConditionsResponseDto"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "서버 오류",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "모든 조건 조회",
+          "tags": [
+            "conditions"
+          ]
+        }
+      },
+      "/conditions/{id}": {
+        "get": {
+          "operationId": "ConditionsController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "조건 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "조건 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConditionResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "조건을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "특정 조건 조회",
+          "tags": [
+            "conditions"
+          ]
+        },
+        "put": {
+          "operationId": "ConditionsController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "조건 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateConditionDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "업데이트된 조건 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConditionResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "조건을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "조건 업데이트",
+          "tags": [
+            "conditions"
+          ]
+        },
+        "delete": {
+          "operationId": "ConditionsController_remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "조건 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "삭제된 조건 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ConditionResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "조건을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "조건 삭제",
+          "tags": [
+            "conditions"
+          ]
+        }
+      },
+      "/rewards": {
+        "post": {
+          "operationId": "RewardsController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRewardDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "보상이 성공적으로 생성됨",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 생성",
+          "tags": [
+            "rewards"
+          ]
+        },
+        "get": {
+          "operationId": "RewardsController_findAll",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "모든 보상 목록",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RewardResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "모든 보상 조회",
+          "tags": [
+            "rewards"
+          ]
+        }
+      },
+      "/rewards/{id}": {
+        "get": {
+          "operationId": "RewardsController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "보상 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "특정 보상 조회",
+          "tags": [
+            "rewards"
+          ]
+        },
+        "put": {
+          "operationId": "RewardsController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateRewardDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "업데이트된 보상 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 업데이트",
+          "tags": [
+            "rewards"
+          ]
+        },
+        "delete": {
+          "operationId": "RewardsController_remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "삭제된 보상 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 삭제",
+          "tags": [
+            "rewards"
+          ]
+        }
+      },
+      "/reward-history": {
+        "post": {
+          "operationId": "RewardHistoryController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRewardHistoryDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "보상 이력이 성공적으로 생성됨",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 이력 생성",
+          "tags": [
+            "reward-history"
+          ]
+        },
+        "get": {
+          "operationId": "RewardHistoryController_findAll",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "모든 보상 이력 목록",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "모든 보상 이력 조회",
+          "tags": [
+            "reward-history"
+          ]
+        }
+      },
+      "/reward-history/user/{userId}": {
+        "get": {
+          "operationId": "RewardHistoryController_findByUserId",
+          "parameters": [
+            {
+              "name": "userId",
+              "required": true,
+              "in": "path",
+              "description": "사용자 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "사용자별 보상 이력 목록",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "사용자별 보상 이력 조회",
+          "tags": [
+            "reward-history"
+          ]
+        }
+      },
+      "/reward-history/{id}": {
+        "get": {
+          "operationId": "RewardHistoryController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 이력 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "보상 이력 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상 이력을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "특정 보상 이력 조회",
+          "tags": [
+            "reward-history"
+          ]
+        },
+        "put": {
+          "operationId": "RewardHistoryController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 이력 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateRewardHistoryDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "업데이트된 보상 이력 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상 이력을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 이력 업데이트",
+          "tags": [
+            "reward-history"
+          ]
+        },
+        "delete": {
+          "operationId": "RewardHistoryController_remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 이력 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "삭제된 보상 이력 정보",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RewardHistoryResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상 이력을 찾을 수 없음",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponseSwaggerDto"
+                  }
+                }
+              }
+            }
+          },
+          "summary": "보상 이력 삭제",
+          "tags": [
+            "reward-history"
+          ]
+        }
+      },
+      "/user-event-rewards": {
+        "post": {
+          "operationId": "UserEventRewardsController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserEventRewardRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "보상 요청이 성공적으로 생성되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserEventRewardRequestResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "이벤트에 해당 보상이 포함되어 있지 않거나 이벤트 기간이 아닙니다."
+            },
+            "404": {
+              "description": "이벤트 또는 보상을 찾을 수 없습니다."
+            },
+            "409": {
+              "description": "이미 해당 이벤트의 보상을 요청했습니다."
+            }
+          },
+          "summary": "유저 이벤트 보상 요청 생성",
+          "tags": [
+            "user-event-rewards"
+          ]
+        }
+      },
+      "/user-event-rewards/user/{userId}": {
+        "get": {
+          "operationId": "UserEventRewardsController_findAllByUserId",
+          "parameters": [
+            {
+              "name": "userId",
+              "required": true,
+              "in": "path",
+              "description": "유저 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "유저의 모든 이벤트 보상 요청 목록을 반환합니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserEventRewardRequestResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "유저의 모든 이벤트 보상 요청 조회",
+          "tags": [
+            "user-event-rewards"
+          ]
+        }
+      },
+      "/user-event-rewards/user/{userId}/event/{eventId}": {
+        "get": {
+          "operationId": "UserEventRewardsController_findAllByUserIdAndEventId",
+          "parameters": [
+            {
+              "name": "userId",
+              "required": true,
+              "in": "path",
+              "description": "유저 ID",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "eventId",
+              "required": true,
+              "in": "path",
+              "description": "이벤트 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "특정 이벤트에 대한 유저의 보상 요청 목록을 반환합니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserEventRewardRequestResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "특정 이벤트에 대한 유저의 보상 요청 조회",
+          "tags": [
+            "user-event-rewards"
+          ]
+        }
+      },
+      "/user-event-rewards/{id}": {
+        "get": {
+          "operationId": "UserEventRewardsController_findById",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 요청 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "특정 보상 요청 정보를 반환합니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserEventRewardRequestResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상 요청을 찾을 수 없습니다."
+            }
+          },
+          "summary": "특정 보상 요청 조회",
+          "tags": [
+            "user-event-rewards"
+          ]
+        }
+      },
+      "/user-event-rewards/{id}/status": {
+        "patch": {
+          "operationId": "UserEventRewardsController_updateStatus",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "보상 요청 ID",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "status",
+              "required": true,
+              "in": "query",
+              "description": "새로운 상태",
+              "schema": {
+                "enum": [
+                  "pending",
+                  "success",
+                  "failed"
+                ],
+                "type": "string"
+              }
+            },
+            {
+              "name": "reason",
+              "required": false,
+              "in": "query",
+              "description": "상태 변경 이유",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "보상 요청 상태가 성공적으로 업데이트되었습니다.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserEventRewardRequestResponseDto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "보상 요청을 찾을 수 없습니다."
+            }
+          },
+          "summary": "보상 요청 상태 업데이트",
+          "tags": [
+            "user-event-rewards"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "이벤트 서비스 API",
+      "description": "이벤트 관리 시스템을 위한 API 문서",
+      "version": "1.0",
+      "contact": {
+  
+      }
+    },
+    "tags": [
+      {
+        "name": "events",
+        "description": ""
+      },
+      {
+        "name": "conditions",
+        "description": ""
+      },
+      {
+        "name": "rewards",
+        "description": ""
+      },
+      {
+        "name": "reward-history",
+        "description": ""
+      },
+      {
+        "name": "user-event-rewards",
+        "description": ""
+      }
+    ],
+    "servers": [],
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "type": "http",
+          "name": "JWT",
+          "description": "JWT 토큰을 입력하세요",
+          "in": "header"
+        }
+      },
+      "schemas": {
+        "CreateEventDto": {
+          "type": "object",
+          "properties": {
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "event-001"
+            },
+            "title": {
+              "type": "string",
+              "description": "이벤트 제목",
+              "example": "7일 출석 이벤트"
+            },
+            "category": {
+              "type": "string",
+              "description": "이벤트 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "conditionIds": {
+              "description": "이벤트 조건 ID 목록",
+              "example": [
+                "60d21b4667d0d8992e610c85",
+                "60d21b4667d0d8992e610c86"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rewardIds": {
+              "description": "이벤트 보상 ID 목록",
+              "example": [
+                "60d21b4667d0d8992e610c87",
+                "60d21b4667d0d8992e610c88"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "trigger": {
+              "type": "string",
+              "description": "이벤트 트리거 유형",
+              "enum": [
+                "manual",
+                "auto"
+              ],
+              "default": "manual"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "보상 전달 유형",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "default": "manual_claim"
+            },
+            "startAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 시작 시간",
+              "example": "2025-01-01T00:00:00Z"
+            },
+            "endAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 종료 시간",
+              "example": "2025-01-31T23:59:59Z"
+            },
+            "isActive": {
+              "type": "boolean",
+              "description": "이벤트 활성화 여부",
+              "default": true
+            }
+          },
+          "required": [
+            "eventId",
+            "title",
+            "category",
+            "conditionIds",
+            "rewardIds",
+            "trigger",
+            "deliveryType",
+            "startAt",
+            "endAt",
+            "isActive"
+          ]
+        },
+        "ConditionResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "조건 ID",
+              "example": "60a12d5c8f45e32b4c9cde1f"
+            },
+            "category": {
+              "type": "string",
+              "description": "조건 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "subType": {
+              "type": "string",
+              "description": "조건 하위 타입",
+              "enum": [
+                "total_days",
+                "after_signup",
+                "invite_success",
+                "meso_spent",
+                "cash_topup",
+                "item_collect",
+                "quest_clear",
+                "return_after_days"
+              ],
+              "example": "total_days"
+            },
+            "target": {
+              "type": "object",
+              "description": "조건 기준값 (예: 3일, 아이템 ID 등)",
+              "example": 3
+            },
+            "description": {
+              "type": "string",
+              "description": "조건 설명",
+              "example": "3일 연속 출석 시 보상 지급"
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 시간",
+              "example": "2025-05-20T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 시간",
+              "example": "2025-05-20T00:00:00.000Z"
+            }
+          },
+          "required": [
+            "id",
+            "category",
+            "subType",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        "RewardResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "보상 ID",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "type": {
+              "type": "string",
+              "description": "보상 타입",
+              "enum": [
+                "item",
+                "meso",
+                "mPoint"
+              ],
+              "example": "item"
+            },
+            "quantity": {
+              "type": "number",
+              "description": "보상 수량",
+              "example": 1
+            },
+            "itemId": {
+              "type": "string",
+              "description": "아이템 ID (타입이 아이템인 경우에만 존재)",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "description": {
+              "type": "string",
+              "description": "보상 설명",
+              "example": "레어 아이템 보상"
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 일시",
+              "example": "2025-05-20T00:37:58.000Z"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 일시",
+              "example": "2025-05-20T00:37:58.000Z"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "quantity",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        "EventResponseDto": {
+          "type": "object",
+          "properties": {
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "event-001"
+            },
+            "title": {
+              "type": "string",
+              "description": "이벤트 제목",
+              "example": "7일 출석 이벤트"
+            },
+            "category": {
+              "type": "string",
+              "description": "이벤트 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "conditions": {
+              "description": "이벤트 조건 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ConditionResponseDto"
+              }
+            },
+            "rewards": {
+              "description": "이벤트 보상 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/RewardResponseDto"
+              }
+            },
+            "trigger": {
+              "type": "string",
+              "description": "트리거 타입",
+              "enum": [
+                "manual",
+                "auto"
+              ],
+              "example": "manual"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "보상 전달 타입",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "startAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 시작 시간",
+              "example": "2025-01-01T00:00:00Z"
+            },
+            "endAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 종료 시간",
+              "example": "2025-01-31T23:59:59Z"
+            },
+            "isActive": {
+              "type": "boolean",
+              "description": "이벤트 활성화 여부",
+              "example": true
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 시간",
+              "example": "2025-05-20T00:00:00.000Z"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 시간",
+              "example": "2025-05-20T00:00:00.000Z"
+            }
+          },
+          "required": [
+            "eventId",
+            "title",
+            "category",
+            "conditions",
+            "rewards",
+            "trigger",
+            "deliveryType",
+            "startAt",
+            "endAt",
+            "isActive",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        "UpdateEventDto": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "이벤트 제목",
+              "example": "7일 출석 이벤트"
+            },
+            "category": {
+              "type": "string",
+              "description": "이벤트 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "conditionIds": {
+              "description": "이벤트 조건 ID 목록",
+              "example": [
+                "60d21b4667d0d8992e610c85",
+                "60d21b4667d0d8992e610c86"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rewardIds": {
+              "description": "이벤트 보상 ID 목록",
+              "example": [
+                "60d21b4667d0d8992e610c87",
+                "60d21b4667d0d8992e610c88"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "trigger": {
+              "type": "string",
+              "description": "이벤트 트리거 유형",
+              "enum": [
+                "manual",
+                "auto"
+              ],
+              "default": "manual"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "보상 전달 유형",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "default": "manual_claim"
+            },
+            "startAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 시작 시간",
+              "example": "2025-01-01T00:00:00Z"
+            },
+            "endAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "이벤트 종료 시간",
+              "example": "2025-01-31T23:59:59Z"
+            },
+            "isActive": {
+              "type": "boolean",
+              "description": "이벤트 활성화 여부",
+              "default": true
+            }
+          }
+        },
+        "CreateConditionDto": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "조건 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "subType": {
+              "type": "string",
+              "description": "조건 하위 타입",
+              "enum": [
+                "total_days",
+                "after_signup",
+                "invite_success",
+                "meso_spent",
+                "cash_topup",
+                "item_collect",
+                "quest_clear",
+                "return_after_days"
+              ],
+              "example": "total_days"
+            },
+            "target": {
+              "type": "string",
+              "description": "조건 기준값 (예: 3일, 아이템 ID 등)",
+              "example": "3"
+            },
+            "description": {
+              "type": "string",
+              "description": "조건 설명",
+              "example": "3일 연속 출석 시 보상 지급"
+            }
+          },
+          "required": [
+            "category",
+            "subType"
+          ]
+        },
+        "ErrorResponseSwaggerDto": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "에러 코드",
+              "example": "CONDITION_NOT_FOUND"
+            },
+            "message": {
+              "type": "string",
+              "description": "에러 메시지",
+              "example": "조건을 찾을 수 없습니다"
+            },
+            "timestamp": {
+              "type": "string",
+              "description": "에러 발생 시간",
+              "example": "2025-05-20T00:09:55.000Z"
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "timestamp"
+          ]
+        },
+        "ConditionsResponseDto": {
+          "type": "object",
+          "properties": {
+            "conditions": {
+              "description": "조건 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ConditionResponseDto"
+              }
+            },
+            "total": {
+              "type": "number",
+              "description": "총 조건 수",
+              "example": 10
+            }
+          },
+          "required": [
+            "conditions",
+            "total"
+          ]
+        },
+        "UpdateConditionDto": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "조건 카테고리",
+              "enum": [
+                "attendance",
+                "social",
+                "economy",
+                "mission",
+                "special"
+              ],
+              "example": "attendance"
+            },
+            "subType": {
+              "type": "string",
+              "description": "조건 하위 타입",
+              "enum": [
+                "total_days",
+                "after_signup",
+                "invite_success",
+                "meso_spent",
+                "cash_topup",
+                "item_collect",
+                "quest_clear",
+                "return_after_days"
+              ],
+              "example": "total_days"
+            },
+            "target": {
+              "type": "string",
+              "description": "조건 기준값 (예: 3일, 아이템 ID 등)",
+              "example": "3"
+            },
+            "description": {
+              "type": "string",
+              "description": "조건 설명",
+              "example": "3일 연속 출석 시 보상 지급"
+            }
+          }
+        },
+        "CreateRewardDto": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "보상 타입",
+              "enum": [
+                "item",
+                "meso",
+                "mPoint"
+              ],
+              "example": "item"
+            },
+            "quantity": {
+              "type": "number",
+              "description": "보상 수량",
+              "example": 1,
+              "minimum": 1
+            },
+            "itemId": {
+              "type": "string",
+              "description": "아이템 ID (타입이 아이템인 경우에만 필수)",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "description": {
+              "type": "string",
+              "description": "보상 설명",
+              "example": "레어 아이템 보상"
+            }
+          },
+          "required": [
+            "type",
+            "quantity"
+          ]
+        },
+        "UpdateRewardDto": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "보상 타입",
+              "enum": [
+                "item",
+                "meso",
+                "mPoint"
+              ],
+              "example": "item"
+            },
+            "quantity": {
+              "type": "number",
+              "description": "보상 수량",
+              "example": 1,
+              "minimum": 1
+            },
+            "itemId": {
+              "type": "string",
+              "description": "아이템 ID (타입이 아이템인 경우에만 필수)",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "description": {
+              "type": "string",
+              "description": "보상 설명",
+              "example": "레어 아이템 보상"
+            }
+          }
+        },
+        "CreateRewardHistoryDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "reward": {
+              "description": "보상 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CreateRewardDto"
+              }
+            },
+            "claimedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수령 일시",
+              "example": "2025-05-20T03:01:12.876Z"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "지급 방식",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "status": {
+              "type": "string",
+              "description": "보상 상태",
+              "enum": [
+                "pending",
+                "success",
+                "failed"
+              ],
+              "example": "pending",
+              "default": "pending"
+            },
+            "reason": {
+              "type": "string",
+              "description": "실패 이유 (실패 시에만 사용)",
+              "example": "이미 수령한 보상입니다"
+            }
+          },
+          "required": [
+            "userId",
+            "eventId",
+            "reward",
+            "claimedAt",
+            "deliveryType",
+            "status"
+          ]
+        },
+        "RewardHistoryResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "보상 이력 ID",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "reward": {
+              "description": "보상 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/RewardResponseDto"
+              }
+            },
+            "claimedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수령 일시",
+              "example": "2025-05-20T00:37:58.000Z"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "지급 방식",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "status": {
+              "type": "string",
+              "description": "보상 상태",
+              "enum": [
+                "pending",
+                "success",
+                "failed"
+              ],
+              "example": "success"
+            },
+            "reason": {
+              "type": "string",
+              "description": "실패 이유 (실패 시에만 존재)",
+              "example": "이미 수령한 보상입니다"
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 일시",
+              "example": "2025-05-20T00:37:58.000Z"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 일시",
+              "example": "2025-05-20T00:37:58.000Z"
+            }
+          },
+          "required": [
+            "id",
+            "userId",
+            "eventId",
+            "reward",
+            "claimedAt",
+            "deliveryType",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        "UpdateRewardHistoryDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "60d21b4667d0d8992e610c85"
+            },
+            "reward": {
+              "description": "보상 목록",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CreateRewardDto"
+              }
+            },
+            "claimedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수령 일시",
+              "example": "2025-05-20T03:01:12.876Z"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "지급 방식",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "status": {
+              "type": "string",
+              "description": "보상 상태",
+              "enum": [
+                "pending",
+                "success",
+                "failed"
+              ],
+              "example": "pending",
+              "default": "pending"
+            },
+            "reason": {
+              "type": "string",
+              "description": "실패 이유 (실패 시에만 사용)",
+              "example": "이미 수령한 보상입니다"
+            }
+          }
+        },
+        "CreateUserEventRewardRequestDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "유저 ID",
+              "example": "user-123"
+            },
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "event-001"
+            },
+            "rewardId": {
+              "type": "string",
+              "description": "보상 ID",
+              "example": "60d21b4667d0d8992e610c87"
+            },
+            "trigger": {
+              "type": "string",
+              "description": "트리거 타입",
+              "enum": [
+                "manual",
+                "auto"
+              ],
+              "example": "manual"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "보상 전달 타입",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "requestedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "유저가 보상을 요청한 시간",
+              "example": "2025-01-01T12:00:00Z"
+            }
+          },
+          "required": [
+            "userId",
+            "eventId",
+            "rewardId",
+            "trigger",
+            "deliveryType"
+          ]
+        },
+        "UserEventRewardRequestResponseDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "요청 ID",
+              "example": "60d21b4667d0d8992e610c90"
+            },
+            "userId": {
+              "type": "string",
+              "description": "유저 ID",
+              "example": "user-123"
+            },
+            "eventId": {
+              "type": "string",
+              "description": "이벤트 ID",
+              "example": "event-001"
+            },
+            "rewardId": {
+              "type": "string",
+              "description": "보상 ID",
+              "example": "60d21b4667d0d8992e610c87"
+            },
+            "trigger": {
+              "type": "string",
+              "description": "트리거 타입",
+              "enum": [
+                "manual",
+                "auto"
+              ],
+              "example": "manual"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "보상 전달 타입",
+              "enum": [
+                "immediate",
+                "manual_claim",
+                "scheduled"
+              ],
+              "example": "manual_claim"
+            },
+            "rewardSnapshot": {
+              "type": "object",
+              "description": "보상 스냅샷 정보",
+              "example": {
+                "type": "item",
+                "quantity": 1,
+                "itemId": "item-001",
+                "description": "레어 아이템"
+              }
+            },
+            "status": {
+              "type": "string",
+              "description": "보상 상태",
+              "enum": [
+                "pending",
+                "success",
+                "failed"
+              ],
+              "example": "pending"
+            },
+            "requestedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "유저가 보상을 요청한 시간",
+              "example": "2025-01-01T12:00:00Z"
+            },
+            "reason": {
+              "type": "string",
+              "description": "보상 처리 결과에 대한 이유 (실패 시 오류 메시지 등)",
+              "example": "이미 보상을 받았습니다."
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 시간",
+              "example": "2025-01-01T12:00:00Z"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 시간",
+              "example": "2025-01-01T12:00:00Z"
+            }
+          },
+          "required": [
+            "id",
+            "userId",
+            "eventId",
+            "rewardId",
+            "trigger",
+            "deliveryType",
+            "rewardSnapshot",
+            "status",
+            "requestedAt",
+            "reason",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      }
+    }
+  }

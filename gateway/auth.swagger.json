@@ -1,0 +1,473 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+      "/": {
+        "get": {
+          "operationId": "AppController_getHello",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "App"
+          ]
+        }
+      },
+      "/users": {
+        "post": {
+          "description": "새로운 사용자를 생성합니다",
+          "operationId": "UsersController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "사용자 생성 성공"
+            },
+            "400": {
+              "description": "잘못된 요청"
+            }
+          },
+          "summary": "사용자 생성",
+          "tags": [
+            "users"
+          ]
+        },
+        "get": {
+          "description": "모든 사용자 목록을 조회합니다",
+          "operationId": "UsersController_findAll",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "사용자 목록 조회 성공"
+            }
+          },
+          "summary": "모든 사용자 조회",
+          "tags": [
+            "users"
+          ]
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "description": "ID로 특정 사용자를 조회합니다",
+          "operationId": "UsersController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "사용자 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "사용자 조회 성공"
+            },
+            "404": {
+              "description": "사용자를 찾을 수 없음"
+            }
+          },
+          "summary": "특정 사용자 조회",
+          "tags": [
+            "users"
+          ]
+        },
+        "patch": {
+          "description": "특정 사용자의 정보를 수정합니다",
+          "operationId": "UsersController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "사용자 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "사용자 정보 수정 성공"
+            },
+            "404": {
+              "description": "사용자를 찾을 수 없음"
+            }
+          },
+          "summary": "사용자 정보 수정",
+          "tags": [
+            "users"
+          ]
+        },
+        "delete": {
+          "description": "특정 사용자를 삭제합니다",
+          "operationId": "UsersController_remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "사용자 ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "사용자 삭제 성공"
+            },
+            "404": {
+              "description": "사용자를 찾을 수 없음"
+            }
+          },
+          "summary": "사용자 삭제",
+          "tags": [
+            "users"
+          ]
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "description": "사용자 로그인 및 JWT 토큰 발급",
+          "operationId": "AuthController_login",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "로그인 성공",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponseDto"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "인증 실패"
+            }
+          },
+          "summary": "로그인",
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/auth/signup": {
+        "post": {
+          "description": "새로운 사용자 등록",
+          "operationId": "AuthController_signup",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "회원가입 성공",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponseDto"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "잘못된 요청"
+            }
+          },
+          "summary": "회원가입",
+          "tags": [
+            "auth"
+          ]
+        }
+      },
+      "/auth/me": {
+        "get": {
+          "description": "JWT 기반 사용자 정보 조회 (인증 필요)",
+          "operationId": "AuthController_getProfile",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "사용자 정보 조회 성공",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserResponseDto"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "인증 실패 - 유효한 JWT 토큰 필요"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ],
+          "summary": "내 정보 조회",
+          "tags": [
+            "auth"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "Auth API",
+      "description": "인증 서비스 API 문서",
+      "version": "1.0",
+      "contact": {
+  
+      }
+    },
+    "tags": [
+      {
+        "name": "auth",
+        "description": ""
+      }
+    ],
+    "servers": [],
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "type": "http",
+          "name": "JWT",
+          "description": "JWT 토큰을 입력하세요",
+          "in": "header"
+        }
+      },
+      "schemas": {
+        "CreateUserDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "email": {
+              "type": "string",
+              "description": "이메일",
+              "example": "user@example.com"
+            },
+            "nickName": {
+              "type": "string",
+              "description": "닉네임",
+              "example": "테스트유저"
+            },
+            "password": {
+              "type": "string",
+              "description": "비밀번호",
+              "example": "password123"
+            },
+            "role": {
+              "type": "string",
+              "description": "역할",
+              "enum": [
+                "USER",
+                "OPERATOR",
+                "AUDITOR",
+                "ADMIN"
+              ],
+              "example": "USER"
+            },
+            "isBlocked": {
+              "type": "boolean",
+              "description": "차단 여부",
+              "default": false
+            },
+            "lastLoginAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "마지막 로그인 시간"
+            },
+            "loginCount": {
+              "type": "number",
+              "description": "로그인 횟수",
+              "default": 0
+            },
+            "invitedBy": {
+              "type": "string",
+              "description": "초대한 사용자"
+            },
+            "loginDays": {
+              "type": "number",
+              "description": "로그인 일수",
+              "default": 0
+            }
+          },
+          "required": [
+            "userId",
+            "email",
+            "nickName",
+            "password",
+            "role"
+          ]
+        },
+        "UpdateUserDto": {
+          "type": "object",
+          "properties": {
+            "_placeholder": {
+              "type": "string",
+              "description": "모든 필드는 선택적입니다"
+            }
+          }
+        },
+        "LoginDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "password": {
+              "type": "string",
+              "description": "비밀번호",
+              "example": "password123"
+            }
+          },
+          "required": [
+            "userId",
+            "password"
+          ]
+        },
+        "LoginResponseDto": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "description": "JWT 액세스 토큰",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            }
+          },
+          "required": [
+            "access_token"
+          ]
+        },
+        "UserResponseDto": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "사용자 ID",
+              "example": "user123"
+            },
+            "email": {
+              "type": "string",
+              "description": "이메일",
+              "example": "user@example.com"
+            },
+            "nickName": {
+              "type": "string",
+              "description": "닉네임",
+              "example": "테스트유저"
+            },
+            "role": {
+              "type": "string",
+              "description": "역할",
+              "enum": [
+                "USER",
+                "OPERATOR",
+                "AUDITOR",
+                "ADMIN"
+              ],
+              "example": "USER"
+            },
+            "isBlocked": {
+              "type": "boolean",
+              "description": "차단 여부",
+              "default": false
+            },
+            "lastLoginAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "마지막 로그인 시간"
+            },
+            "loginCount": {
+              "type": "number",
+              "description": "로그인 횟수",
+              "default": 0
+            },
+            "invitedBy": {
+              "type": "string",
+              "description": "초대한 사용자"
+            },
+            "loginDays": {
+              "type": "number",
+              "description": "로그인 일수",
+              "default": 0
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "생성 시간"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string",
+              "description": "수정 시간"
+            }
+          },
+          "required": [
+            "userId",
+            "email",
+            "nickName",
+            "role",
+            "isBlocked",
+            "lastLoginAt",
+            "loginCount",
+            "invitedBy",
+            "loginDays",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      }
+    }
+  }

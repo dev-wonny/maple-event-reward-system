@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        restart: always
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: event_reward_system
+        volumes:
+            - mongodb_data:/data/db
+        networks:
+            - app-network
+
+    mongo-express:
+        image: mongo-express:latest
+        container_name: mongo-express
+        restart: always
+        ports:
+            - 8081:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: password
+            ME_CONFIG_MONGODB_URL: mongodb://root:password@mongodb:27017/?authSource=admin
+            ME_CONFIG_BASICAUTH_USERNAME: admin
+            ME_CONFIG_BASICAUTH_PASSWORD: yourpassword
+        depends_on:
+            - mongodb
+        networks:
+            - app-network
+
+    auth:
+        build:
+            context: .
+            dockerfile: ./auth/Dockerfile
+        container_name: auth
+        restart: always
+        ports:
+            - 3001:3000
+        environment:
+            - NODE_ENV=development
+            - PORT=3000
+            - MONGODB_URI=mongodb://root:password@mongodb:27017/auth?authSource=admin
+            - JWT_SECRET=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
+        depends_on:
+            - mongodb
+        networks:
+            - app-network
+
+    event:
+        build:
+            context: ./event
+            dockerfile: Dockerfile
+        container_name: event
+        restart: always
+        ports:
+            - 3002:3000
+        environment:
+            - NODE_ENV=development
+            - PORT=3000
+            - MONGODB_URI=mongodb://root:password@mongodb:27017/event?authSource=admin
+        depends_on:
+            - mongodb
+        networks:
+            - app-network
+
+    gateway:
+        build:
+            context: ./gateway
+            dockerfile: Dockerfile
+        container_name: gateway
+        restart: always
+        ports:
+            - 3000:3000
+        environment:
+            - NODE_ENV=development
+            - PORT=3000
+            - AUTH_SERVICE_URL=http://auth:3000
+            - EVENT_SERVICE_URL=http://event:3000
+            - JWT_SECRET=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
+            - AUTH_SERVICE_HOST=auth
+            - EVENT_SERVICE_HOST=event
+        depends_on:
+            - auth
+            - event
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mongodb_data:
