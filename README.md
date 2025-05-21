@@ -617,10 +617,8 @@ export enum RewardStatus { PENDING = 'pending', SUCCESS = 'success', FAILED = 'f
 
 ---
 
-## 💡 기타 참고
-- Postman 테스트 시나리오, Mongo 모델, DTO, Guard, Proxy 등은 각 서버별로 추가 구현 가능
-- 각 서버/컴포넌트별 템플릿, 예시 코드는 실제 구현에서 참고
-
----
-
-본 README는 최신 요구사항 및 설계 기준에 맞춰 작성되었습니다.
+## 💡 아쉬운 점 및 테스트 방법
+- **아쉬운 점:** Gateway 서버에서 API 테스트를 도커로 통합 실행하지 못했던 부분이 아쉽습니다. 시간이 부족하여 각 서버를 도커로 올려서 통합 테스트를 실행하지 못했습니다.
+- **테스트 방법:** 개별 서버(Event, Auth)를 실행하면 Swagger를 통해 API 테스트가 가능합니다.
+  - Event 서버: 'npm run start:dev' 실행 후 Swagger에서 API 테스트
+  - Auth 서버: 'npm run start:dev' 실행 후 Swagger에서 API 테스트
